@@ -1,0 +1,60 @@
+#include <BluetoothSerial.h>
+
+BluetoothSerial SerialBT;
+
+// Motor pins
+const int in1 = 13;
+const int in2 = 12;
+const int in3 = 14;
+const int in4 = 27;
+
+void setup() {
+  SerialBT.begin("ESP32-Bluetooth-CAR+Iqbal"); //Name of your Bluetooth car
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char command = SerialBT.read();
+    switch (command) {
+      case 'F':
+        // Move forward
+        digitalWrite(in1, HIGH);
+        digitalWrite(in2, LOW);
+        digitalWrite(in3, HIGH);
+        digitalWrite(in4, LOW);
+        break;
+      case 'B':
+        // Move backward
+        digitalWrite(in1, LOW);
+        digitalWrite(in2, HIGH);
+        digitalWrite(in3, LOW);
+        digitalWrite(in4, HIGH);
+        break;
+      case 'L':
+        // Turn left
+        digitalWrite(in1, LOW);
+        digitalWrite(in2, HIGH);
+        digitalWrite(in3, HIGH);
+        digitalWrite(in4, LOW);
+        break;
+      case 'R':
+        // Turn right
+        digitalWrite(in1, HIGH);
+        digitalWrite(in2, LOW);
+        digitalWrite(in3, LOW);
+        digitalWrite(in4, HIGH);
+        break;
+      case 'S':
+        // Stop
+        digitalWrite(in1, LOW);
+        digitalWrite(in2, LOW);
+        digitalWrite(in3, LOW);
+        digitalWrite(in4, LOW);
+        break;
+    }
+  }
+}
